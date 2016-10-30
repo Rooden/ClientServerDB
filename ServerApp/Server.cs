@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SqlClient;
 using System.Net;
 using System.Net.Sockets;
 
@@ -8,6 +9,7 @@ namespace ServerApp
     {
         private TcpListener _server;
         private TcpClient _client;
+        private static SqlConnection _connection;
 
         public void StartServer(int port, string ip = "127.0.0.1")
         {
@@ -15,7 +17,12 @@ namespace ServerApp
 
             _server = new TcpListener(ipAddress, port);
             _server.Start();
+
             Console.WriteLine("Server start successful!");
+
+            _connection = new SqlConnection(
+                @"Server = localhost; User Id = test; Password = 1324; Network Library = DBMSSOCN; Initial Catalog = Test"
+            );
         }
 
         public void ListenClients()
@@ -33,7 +40,17 @@ namespace ServerApp
                         continue;
 
                     Console.WriteLine("Sending bytes.");
-                    var resultBytes = GetBytesFromDataSet(dataSet);
+                    var resultBytes = GetBytesFrom(dataSet);
+                    clientStream.Write(resultBytes, 0, resultBytes.Length);
+                    Console.WriteLine("Finish.");
+
+                    var list = GetAllTablesName();
+
+                    if (list == null)
+                        continue;
+
+                    Console.WriteLine("Sending bytes.");
+                    resultBytes = GetBytesFrom(list);
                     clientStream.Write(resultBytes, 0, resultBytes.Length);
                     Console.WriteLine("Finish.");
                 }
@@ -42,6 +59,7 @@ namespace ServerApp
 
         ~Server()
         {
+            _connection.Close();
             _server.Stop();
         }
     }

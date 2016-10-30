@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -21,6 +22,15 @@ namespace ClientApp
 
             var dataSet = binaryFormatter.Deserialize(clientStream) as DataSet;
             mainDataGridView.DataSource = dataSet?.Tables["TestTable"].DefaultView;
+
+            var list = binaryFormatter.Deserialize(clientStream) as List<string>;
+            foreach (var item in list)
+                cmbTables.Items.Add(item);
+            cmbTables.SelectedIndex = 0;
+        }
+
+        private void btnSelectTable_Click(object sender, EventArgs e)
+        {
         }
     }
 }

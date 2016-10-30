@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
+using System.Net;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace ServerApp
@@ -10,53 +12,55 @@ namespace ServerApp
     {
         private static DataSet GetDataFromDatabase()
         {
-            var connection = new SqlConnection(
-                @"Server = localhost; User Id = test; Password = 1324; Network Library = DBMSSOCN; Initial Catalog = Test"
-            );
             var dataSet = new DataSet();
 
             try
             {
-                connection.Open();
-                var command = new SqlDataAdapter("select * from TestTable", connection);
+                _connection.Open();
+                var command = new SqlDataAdapter("select * from TestTable", _connection);
 
                 command.FillSchema(dataSet, SchemaType.Source, "TestTable");
                 command.Fill(dataSet, "TestTable");
-
-                /*
-                var tblAuthors = dataSet.Tables["TestTable"];
-
-                foreach (DataRow drCurrent in tblAuthors.Rows)
-                {
-                    Console.WriteLine($"{drCurrent["TT"]} {drCurrent["Name"]}");
-                }
-                Console.ReadLine();
-                */
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-            finally
-            {
-                connection.Close();
-            }
 
             return dataSet;
         }
 
-        private static byte[] GetBytesFromDataSet(DataSet dataSet)
+        private static byte[] GetBytesFrom(object data)
         {
             var memoryStream = new MemoryStream();
             var binaryFormatter = new BinaryFormatter();
 
-            binaryFormatter.Serialize(memoryStream, dataSet);
+            binaryFormatter.Serialize(memoryStream, data);
             var resultBytes = memoryStream.ToArray();
 
             memoryStream.Close();
             memoryStream.Dispose();
 
             return resultBytes;
+        }
+
+        private static List<string> GetAllTablesName()
+        {
+            var result = new List<string>();
+            var command = new SqlCommand(@"SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_TYPE LIKE '%TABLE%'", _connection);
+            using (var reader = command.ExecuteReader())
+            {
+                if (!reader.HasRows)
+                    return result;
+
+                while (reader.Read())
+                {
+                    var item = reader.GetString(reader.GetOrdinal("TABLE_NAME"));
+                    result.Add(item);
+                }
+            }
+
+            return result;
         }
     }
 }
