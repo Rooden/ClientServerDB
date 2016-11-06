@@ -55,7 +55,7 @@
             // 
             // cmbTables
             // 
-            this.cmbTables.FormattingEnabled = true;
+            this.cmbTables.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbTables.Location = new System.Drawing.Point(13, 416);
             this.cmbTables.Name = "cmbTables";
             this.cmbTables.Size = new System.Drawing.Size(121, 21);
@@ -63,6 +63,7 @@
             // 
             // btnSelectTable
             // 
+            this.btnSelectTable.Enabled = false;
             this.btnSelectTable.Location = new System.Drawing.Point(140, 416);
             this.btnSelectTable.Name = "btnSelectTable";
             this.btnSelectTable.Size = new System.Drawing.Size(75, 23);

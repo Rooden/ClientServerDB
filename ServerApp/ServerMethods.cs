@@ -3,45 +3,28 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
-using System.Net;
-using System.Runtime.Serialization.Formatters.Binary;
 
 namespace ServerApp
 {
     internal partial class Server
     {
-        private static DataSet GetDataFromDatabase()
+        private static DataSet GetDataFromTable(string tableName = "TestTable")
         {
             var dataSet = new DataSet();
 
             try
             {
-                _connection.Open();
-                var command = new SqlDataAdapter("select * from TestTable", _connection);
+                var command = new SqlDataAdapter($@"select * from {tableName}", _connection);
 
-                command.FillSchema(dataSet, SchemaType.Source, "TestTable");
-                command.Fill(dataSet, "TestTable");
+                command.FillSchema(dataSet, SchemaType.Source, tableName);
+                command.Fill(dataSet, tableName);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine("Debug Mode\n" + ex.Message);
             }
 
             return dataSet;
-        }
-
-        private static byte[] GetBytesFrom(object data)
-        {
-            var memoryStream = new MemoryStream();
-            var binaryFormatter = new BinaryFormatter();
-
-            binaryFormatter.Serialize(memoryStream, data);
-            var resultBytes = memoryStream.ToArray();
-
-            memoryStream.Close();
-            memoryStream.Dispose();
-
-            return resultBytes;
         }
 
         private static List<string> GetAllTablesName()

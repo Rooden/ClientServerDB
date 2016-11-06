@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace ServerApp
 {
@@ -23,43 +25,65 @@ namespace ServerApp
             _connection = new SqlConnection(
                 @"Server = localhost; User Id = test; Password = 1324; Network Library = DBMSSOCN; Initial Catalog = Test"
             );
+
+            try
+            {
+                _connection.Open();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Debug Mode\n" + ex.Message + "\n");
+            }
         }
 
         public void ListenClients()
         {
+            int i = 1;
             while (true)
             {
                 Console.WriteLine("Looking for clients.");
-                using (_client = _server.AcceptTcpClient())
+                _client = _server.AcceptTcpClient();
+                Console.WriteLine("Client was found!");
+                var clientStream = _client.GetStream();
+
+                DataSet dataSet;
+                if (i++ != 1)
                 {
-                    Console.WriteLine("Client was found!");
-                    var clientStream = _client.GetStream();
-                    var dataSet = GetDataFromDatabase();
-
-                    if (dataSet == null)
-                        continue;
-
-                    Console.WriteLine("Sending bytes.");
-                    var resultBytes = GetBytesFrom(dataSet);
-                    clientStream.Write(resultBytes, 0, resultBytes.Length);
-                    Console.WriteLine("Finish.");
-
-                    var list = GetAllTablesName();
-
-                    if (list == null)
-                        continue;
-
-                    Console.WriteLine("Sending bytes.");
-                    resultBytes = GetBytesFrom(list);
-                    clientStream.Write(resultBytes, 0, resultBytes.Length);
-                    Console.WriteLine("Finish.");
+                    var binaryFormatter = new BinaryFormatter();
+                    var tableName = binaryFormatter.Deserialize(clientStream) as string;
+                    dataSet = GetDataFromTable(tableName);
                 }
+                else
+                {
+                    dataSet = GetDataFromTable();
+                }
+
+                if (dataSet == null)
+                    continue;
+
+                Console.WriteLine("Sending bytes.");
+                var resultBytes = Utilities.GetBytesFrom(dataSet);
+                clientStream.Write(resultBytes, 0, resultBytes.Length);
+                Console.WriteLine("Finish.");
+
+                var list = GetAllTablesName();
+
+                if (list == null)
+                    continue;
+
+                Console.WriteLine("Sending bytes.");
+                resultBytes = Utilities.GetBytesFrom(list);
+                clientStream.Write(resultBytes, 0, resultBytes.Length);
+                Console.WriteLine("Finish.");
+                clientStream.Close();
+                clientStream.Dispose();
+                _client.Close();
             }
         }
 
         ~Server()
         {
-            _connection.Close();
+            Server._connection.Close();
             _server.Stop();
         }
     }
