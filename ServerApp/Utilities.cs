@@ -1,5 +1,4 @@
-﻿using System.Data;
-using System.IO;
+﻿using System.IO;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -8,6 +7,14 @@ namespace ServerApp
     public class Utilities
     {
         private static readonly BinaryFormatter BinaryFormatter = new BinaryFormatter();
+
+        public enum ClientStates
+        {
+            ConnectionToServer,
+            SelectTable,
+            Edit,
+            DisconectFromServer
+        }
 
         public static byte[] GetBytesFrom(object data)
         {

@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Data;
 using System.Data.SqlClient;
 using System.Net;
 using System.Net.Sockets;
-using System.Runtime.Serialization.Formatters.Binary;
 
 namespace ServerApp
 {
@@ -46,26 +44,28 @@ namespace ServerApp
                 Console.WriteLine("Client was found!");
                 _clientStream = _client.GetStream();
 
-                string mode;
+                Utilities.ClientStates mode;
                 Utilities.RecieveBytes(out mode, _clientStream);
 
                 // ReSharper disable once SwitchStatementMissingSomeCases
                 switch (mode)
                 {
-                    case "ConnectionToServer":
+                    case Utilities.ClientStates.ConnectionToServer:
                         ConnectionToServer();
                         break;
 
-                    case "SelectTable":
+                    case Utilities.ClientStates.SelectTable:
                         SelectTable();
                         break;
 
-                    case "Edit":
+                    case Utilities.ClientStates.Edit:
+                        break;
+
+                    case Utilities.ClientStates.DisconectFromServer:
                         break;
                 }
 
                 _clientStream.Close();
-                _clientStream.Dispose();
                 _client.Close();
             }
         }

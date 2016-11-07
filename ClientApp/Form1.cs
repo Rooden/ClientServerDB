@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Net.Sockets;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
 
 namespace ClientApp
@@ -23,11 +22,14 @@ namespace ClientApp
             _server = new TcpClient("127.0.0.1", 200);
             _serverStream = _server.GetStream();
 
-            var binaryFormatter = new BinaryFormatter();
-            var dataSet = binaryFormatter.Deserialize(_serverStream) as DataSet;
+            Utilities.SendBytes(Utilities.ClientStates.ConnectionToServer, _serverStream);
+
+            DataSet dataSet;
+            Utilities.RecieveBytes(out dataSet, _serverStream);
             mainDataGridView.DataSource = dataSet?.Tables["TestTable"]?.DefaultView;
 
-            var list = binaryFormatter.Deserialize(_serverStream) as List<string>;
+            List<string> list;
+            Utilities.RecieveBytes(out list, _serverStream);
             if (list != null)
                 foreach (var item in list)
                     cmbTables.Items.Add(item);
@@ -38,12 +40,13 @@ namespace ClientApp
 
         private void btnSelectTable_Click(object sender, EventArgs e)
         {
-            var tableName = cmbTables.SelectedItem.ToString();
-            var resultBytes = Utilities.GetBytesFrom(tableName);
-            _serverStream.Write(resultBytes, 0, resultBytes.Length);
+            Utilities.SendBytes(Utilities.ClientStates.SelectTable, _serverStream);
 
-            var binaryFormatter = new BinaryFormatter();
-            var dataSet = binaryFormatter.Deserialize(_serverStream) as DataSet;
+            var tableName = cmbTables.SelectedItem.ToString();
+            Utilities.SendBytes(tableName, _serverStream);
+
+            DataSet dataSet;
+            Utilities.RecieveBytes(out dataSet, _serverStream);
             mainDataGridView.DataSource = dataSet?.Tables[tableName]?.DefaultView;
         }
     }
