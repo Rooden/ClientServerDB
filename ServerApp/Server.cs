@@ -11,6 +11,7 @@ namespace ServerApp
     {
         private TcpListener _server;
         private TcpClient _client;
+        private static NetworkStream _clientStream;
         private static SqlConnection _connection;
 
         public void StartServer(int port, string ip = "127.0.0.1")
@@ -38,52 +39,40 @@ namespace ServerApp
 
         public void ListenClients()
         {
-            int i = 1;
             while (true)
             {
                 Console.WriteLine("Looking for clients.");
                 _client = _server.AcceptTcpClient();
                 Console.WriteLine("Client was found!");
-                var clientStream = _client.GetStream();
+                _clientStream = _client.GetStream();
 
-                DataSet dataSet;
-                if (i++ != 1)
+                string mode;
+                Utilities.RecieveBytes(out mode, _clientStream);
+
+                // ReSharper disable once SwitchStatementMissingSomeCases
+                switch (mode)
                 {
-                    var binaryFormatter = new BinaryFormatter();
-                    var tableName = binaryFormatter.Deserialize(clientStream) as string;
-                    dataSet = GetDataFromTable(tableName);
+                    case "ConnectionToServer":
+                        ConnectionToServer();
+                        break;
+
+                    case "SelectTable":
+                        SelectTable();
+                        break;
+
+                    case "Edit":
+                        break;
                 }
-                else
-                {
-                    dataSet = GetDataFromTable();
-                }
 
-                if (dataSet == null)
-                    continue;
-
-                Console.WriteLine("Sending bytes.");
-                var resultBytes = Utilities.GetBytesFrom(dataSet);
-                clientStream.Write(resultBytes, 0, resultBytes.Length);
-                Console.WriteLine("Finish.");
-
-                var list = GetAllTablesName();
-
-                if (list == null)
-                    continue;
-
-                Console.WriteLine("Sending bytes.");
-                resultBytes = Utilities.GetBytesFrom(list);
-                clientStream.Write(resultBytes, 0, resultBytes.Length);
-                Console.WriteLine("Finish.");
-                clientStream.Close();
-                clientStream.Dispose();
+                _clientStream.Close();
+                _clientStream.Dispose();
                 _client.Close();
             }
         }
 
         ~Server()
         {
-            Server._connection.Close();
+            _connection.Close();
             _server.Stop();
         }
     }

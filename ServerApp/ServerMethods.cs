@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace ServerApp
 {
@@ -44,6 +44,39 @@ namespace ServerApp
             }
 
             return result;
+        }
+
+        private static void ConnectionToServer()
+        {
+            var dataSet = GetDataFromTable();
+            if (dataSet == null)
+                return;
+
+            Console.WriteLine("Sending dataSet bytes.");
+            Utilities.SendBytes(dataSet, _clientStream);
+            Console.WriteLine("Finish.");
+
+            var list = GetAllTablesName();
+            if (list == null)
+                return;
+
+            Console.WriteLine("Sending list bytes.");
+            Utilities.SendBytes(list, _clientStream);
+            Console.WriteLine("Finish.");
+        }
+
+        private static void SelectTable()
+        {
+            string tableName;
+            Utilities.RecieveBytes(out tableName, _clientStream);
+
+            var dataSet = GetDataFromTable(tableName);
+            if (dataSet == null)
+                return;
+
+            Console.WriteLine("Sending dataSet bytes.");
+            Utilities.SendBytes(dataSet, _clientStream);
+            Console.WriteLine("Finish.");
         }
     }
 }
