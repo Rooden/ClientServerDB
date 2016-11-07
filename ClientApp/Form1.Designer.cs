@@ -32,6 +32,7 @@
             this.mainDataGridView = new System.Windows.Forms.DataGridView();
             this.cmbTables = new System.Windows.Forms.ComboBox();
             this.btnSelectTable = new System.Windows.Forms.Button();
+            this.btnDisconnectServer = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.mainDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -72,11 +73,23 @@
             this.btnSelectTable.UseVisualStyleBackColor = true;
             this.btnSelectTable.Click += new System.EventHandler(this.btnSelectTable_Click);
             // 
+            // btnDisconnectServer
+            // 
+            this.btnDisconnectServer.Enabled = false;
+            this.btnDisconnectServer.Location = new System.Drawing.Point(94, 495);
+            this.btnDisconnectServer.Name = "btnDisconnectServer";
+            this.btnDisconnectServer.Size = new System.Drawing.Size(75, 38);
+            this.btnDisconnectServer.TabIndex = 4;
+            this.btnDisconnectServer.Text = "Disconect from Server";
+            this.btnDisconnectServer.UseVisualStyleBackColor = true;
+            this.btnDisconnectServer.Click += new System.EventHandler(this.btnDisconnectServer_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(792, 545);
+            this.Controls.Add(this.btnDisconnectServer);
             this.Controls.Add(this.btnSelectTable);
             this.Controls.Add(this.cmbTables);
             this.Controls.Add(this.mainDataGridView);
@@ -94,6 +107,7 @@
         private System.Windows.Forms.DataGridView mainDataGridView;
         private System.Windows.Forms.ComboBox cmbTables;
         private System.Windows.Forms.Button btnSelectTable;
+        private System.Windows.Forms.Button btnDisconnectServer;
     }
 }
 

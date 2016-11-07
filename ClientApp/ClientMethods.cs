@@ -7,7 +7,7 @@ namespace ClientApp
 {
     internal partial class Client
     {
-        public void ConnectToServer(DataGridView mainDataGridView, ComboBox cmbTables, Control btnSelectTable)
+        public void ConnectToServer(DataGridView mainDataGridView, ComboBox cmbTables)
         {
             Utilities.SendBytes(Utilities.ClientStates.ConnectionToServer, _serverStream);
 
@@ -22,7 +22,6 @@ namespace ClientApp
                     cmbTables.Items.Add(item);
 
             cmbTables.SelectedIndex = 0;
-            btnSelectTable.Enabled = true;
         }
 
         public void SelectTable(DataGridView mainDataGridView, ComboBox cmbTables)

@@ -1,8 +1,9 @@
-﻿using System.Net.Sockets;
+﻿using ServerApp;
+using System.Net.Sockets;
 
 namespace ClientApp
 {
-    internal partial class Client : Form1
+    internal partial class Client
     {
         private NetworkStream _serverStream;
         private TcpClient _server;
@@ -11,6 +12,11 @@ namespace ClientApp
         {
             _server = new TcpClient(ip, port);
             _serverStream = _server.GetStream();
+        }
+
+        public void DisconnectFromServer()
+        {
+            Utilities.SendBytes(Utilities.ClientStates.DisconectFromServer, _serverStream);
         }
 
         ~Client()
