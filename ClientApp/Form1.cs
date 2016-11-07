@@ -49,5 +49,11 @@ namespace ClientApp
             Utilities.RecieveBytes(out dataSet, _serverStream);
             mainDataGridView.DataSource = dataSet?.Tables[tableName]?.DefaultView;
         }
+
+        ~Form1()
+        {
+            _serverStream.Close();
+            _server.Close();
+        }
     }
 }

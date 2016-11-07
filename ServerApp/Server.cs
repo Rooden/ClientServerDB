@@ -44,11 +44,22 @@ namespace ServerApp
                 Console.WriteLine("Client was found!");
                 _clientStream = _client.GetStream();
 
-                Utilities.ClientStates mode;
-                Utilities.RecieveBytes(out mode, _clientStream);
+                TakingRequests();
+
+                _clientStream.Close();
+                _client.Close();
+            }
+        }
+
+        private static void TakingRequests()
+        {
+            while (true)
+            {
+                Utilities.ClientStates currentMode;
+                Utilities.RecieveBytes(out currentMode, _clientStream);
 
                 // ReSharper disable once SwitchStatementMissingSomeCases
-                switch (mode)
+                switch (currentMode)
                 {
                     case Utilities.ClientStates.ConnectionToServer:
                         ConnectionToServer();
@@ -62,11 +73,8 @@ namespace ServerApp
                         break;
 
                     case Utilities.ClientStates.DisconectFromServer:
-                        break;
+                        return;
                 }
-
-                _clientStream.Close();
-                _client.Close();
             }
         }
 
