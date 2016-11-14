@@ -117,7 +117,10 @@ namespace ServerApp
             try
             {
                 Console.WriteLine("Start edit.");
-                var command = new SqlCommand(updateQuery, _connection);
+                using (var command = new SqlCommand(updateQuery, _connection))
+                {
+                    command.ExecuteNonQuery();
+                }
                 Console.WriteLine("Update successful!");
             }
             catch (Exception ex)
