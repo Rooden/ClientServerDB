@@ -39,6 +39,7 @@
             this.btnQuery3 = new System.Windows.Forms.Button();
             this.lblText = new System.Windows.Forms.Label();
             this.txtEdit = new System.Windows.Forms.TextBox();
+            this.lblNewValue = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.mainDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -151,11 +152,21 @@
             this.txtEdit.Size = new System.Drawing.Size(100, 20);
             this.txtEdit.TabIndex = 10;
             // 
+            // lblNewValue
+            // 
+            this.lblNewValue.AutoSize = true;
+            this.lblNewValue.Location = new System.Drawing.Point(532, 438);
+            this.lblNewValue.Name = "lblNewValue";
+            this.lblNewValue.Size = new System.Drawing.Size(61, 13);
+            this.lblNewValue.TabIndex = 11;
+            this.lblNewValue.Text = "New value:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(792, 545);
+            this.Controls.Add(this.lblNewValue);
             this.Controls.Add(this.txtEdit);
             this.Controls.Add(this.lblText);
             this.Controls.Add(this.btnQuery3);
@@ -168,7 +179,7 @@
             this.Controls.Add(this.mainDataGridView);
             this.Controls.Add(this.btnConnectServer);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Client";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.mainDataGridView)).EndInit();
             this.ResumeLayout(false);
@@ -189,6 +200,7 @@
         private System.Windows.Forms.Button btnQuery3;
         private System.Windows.Forms.Label lblText;
         private System.Windows.Forms.TextBox txtEdit;
+        private System.Windows.Forms.Label lblNewValue;
     }
 }
 
