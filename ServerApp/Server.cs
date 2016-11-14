@@ -22,7 +22,7 @@ namespace ServerApp
             Console.WriteLine("Server start successful!");
 
             _connection = new SqlConnection(
-                @"Server = localhost; User Id = test; Password = 1324; Network Library = DBMSSOCN; Initial Catalog = Test"
+                @"Server = localhost; User Id = RDadmin; Password = 1324; Network Library = DBMSSOCN; Initial Catalog = KICT"
             );
 
             try
@@ -69,7 +69,12 @@ namespace ServerApp
                         SelectTable();
                         break;
 
+                    case Utilities.ClientStates.Query:
+                        ExecuteQuery();
+                        break;
+
                     case Utilities.ClientStates.Edit:
+                        //EditData();
                         break;
 
                     case Utilities.ClientStates.DisconectFromServer:

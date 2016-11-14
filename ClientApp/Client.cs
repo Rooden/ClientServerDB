@@ -21,6 +21,7 @@ namespace ClientApp
 
         ~Client()
         {
+            DisconnectFromServer();
             _serverStream.Close();
             _server.Close();
         }

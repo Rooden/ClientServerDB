@@ -12,6 +12,7 @@ namespace ServerApp
         {
             ConnectionToServer,
             SelectTable,
+            Query,
             Edit,
             DisconectFromServer
         }

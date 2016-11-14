@@ -7,16 +7,16 @@ namespace ServerApp
 {
     internal partial class Server
     {
-        private static DataSet GetDataFromTable(string tableName = "TestTable")
+        private static DataSet GetDataFromTable(string tableName = "PERSON")
         {
             var dataSet = new DataSet();
 
             try
             {
-                var command = new SqlDataAdapter($@"select * from {tableName}", _connection);
+                var adapter = new SqlDataAdapter($@"select * from {tableName}", _connection);
 
-                command.FillSchema(dataSet, SchemaType.Source, tableName);
-                command.Fill(dataSet, tableName);
+                adapter.FillSchema(dataSet, SchemaType.Source, tableName);
+                adapter.Fill(dataSet, tableName);
             }
             catch (Exception ex)
             {
@@ -26,10 +26,12 @@ namespace ServerApp
             return dataSet;
         }
 
-        private static List<string> GetAllTablesName()
+        private static List<string> GetAllTableNames()
         {
             var result = new List<string>();
-            var command = new SqlCommand(@"SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_TYPE LIKE '%TABLE%'", _connection);
+            var command =
+                new SqlCommand(@"SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_TYPE LIKE '%TABLE%'",
+                    _connection);
             using (var reader = command.ExecuteReader())
             {
                 if (!reader.HasRows)
@@ -55,7 +57,7 @@ namespace ServerApp
             Utilities.SendBytes(dataSet, _clientStream);
             Console.WriteLine("Finish.");
 
-            var list = GetAllTablesName();
+            var list = GetAllTableNames();
             if (list == null)
                 return;
 
@@ -76,6 +78,44 @@ namespace ServerApp
             Console.WriteLine("Sending dataSet bytes.");
             Utilities.SendBytes(dataSet, _clientStream);
             Console.WriteLine("Finish.");
+        }
+
+        private static void ExecuteQuery()
+        {
+            var dataSet = new DataSet();
+
+            string query;
+            Utilities.RecieveBytes(out query, _clientStream);
+
+            try
+            {
+                var adapter = new SqlDataAdapter(query, _connection);
+
+                adapter.FillSchema(dataSet, SchemaType.Source);
+                adapter.Fill(dataSet);
+                Utilities.SendBytes(dataSet, _clientStream);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Debug Mode\n" + ex.Message);
+            }
+        }
+
+        private static void EditData()
+        {
+            try
+            {
+                //var builder = new SqlCommandBuilder(adapter);
+                DataTable dataTable;
+                Console.WriteLine("Recieving dataSet for Update.");
+                Utilities.RecieveBytes(out dataTable, _clientStream);
+                //adapter.Update(dataTable);
+                Console.WriteLine("Update table was successful.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Update table error! " + ex.Message);
+            }
         }
     }
 }
