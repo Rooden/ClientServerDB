@@ -17,11 +17,6 @@ namespace ClientApp
         public void DisconnectFromServer()
         {
             Utilities.SendBytes(Utilities.ClientStates.DisconectFromServer, _serverStream);
-        }
-
-        ~Client()
-        {
-            DisconnectFromServer();
             _serverStream.Close();
             _server.Close();
         }

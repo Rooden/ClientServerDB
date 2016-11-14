@@ -113,5 +113,10 @@ namespace ClientApp
                     ORDER BY [ФИО]";
             _client.ExecuteQuery(mainDataGridView, query);
         }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _client.DisconnectFromServer();
+        }
     }
 }
