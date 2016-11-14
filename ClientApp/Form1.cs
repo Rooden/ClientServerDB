@@ -19,6 +19,9 @@ namespace ClientApp
 
             _client.GetInfoFromServer(mainDataGridView, cmbTables, lblText);
 
+            btnQuery1.Enabled = true;
+            btnQuery2.Enabled = true;
+            btnQuery3.Enabled = true;
             btnSelectTable.Enabled = true;
             btnConnectServer.Enabled = false;
             btnDisconnectServer.Enabled = true;
@@ -36,7 +39,11 @@ namespace ClientApp
 
             _client.DisconnectFromServer();
 
-            lblText.Text = "Table: ";
+            lblText.Text = @"Table: ";
+
+            btnQuery1.Enabled = false;
+            btnQuery2.Enabled = false;
+            btnQuery3.Enabled = false;
             btnSelectTable.Enabled = false;
             btnConnectServer.Enabled = true;
             btnDisconnectServer.Enabled = false;
@@ -49,7 +56,7 @@ namespace ClientApp
 
         private void btnQuery1_Click(object sender, EventArgs e)
         {
-            lblText.Text = "Query: Вывести всех студентов, которые учатся на Системной инженерии";
+            lblText.Text = @"Query: Вывести всех студентов, которые учатся на Системной инженерии";
             var query = @"SELECT pers.Surname + ' ' + pers.Name + coalesce(' ' + pers.Patronymic, '') as [ФИО]
 	                FROM PERSON pers
 	                INNER JOIN STUDENT stud
@@ -67,7 +74,7 @@ namespace ClientApp
 
         private void btnQuery2_Click(object sender, EventArgs e)
         {
-            lblText.Text = "Query: Вывести всех студентов, которые учатся только на 5";
+            lblText.Text = @"Query: Вывести всех студентов, которые учатся только на 5";
             var query = @"SELECT pers.Surname + ' ' + pers.Name + coalesce(' ' + pers.Patronymic, '') as [ФИО]
 	                FROM PERSON pers
 	                INNER JOIN STUDENT stud
@@ -84,7 +91,7 @@ namespace ClientApp
 
         private void btnQuery3_Click(object sender, EventArgs e)
         {
-            lblText.Text = "Query: Вывести указ и наказание для студентов, которые опоздали 17 мая";
+            lblText.Text = @"Query: Вывести указ и наказание для студентов, которые опоздали 17 мая";
             var query = @"SELECT pers.Surname + ' ' + pers.Name + coalesce(' ' + pers.Patronymic, '') as [ФИО],
                     viol.Violation_date as [Дата нарушения],
 	                viol_kind.Violation_kind_name as [Нарушение],

@@ -15,7 +15,7 @@ namespace ClientApp
             Utilities.RecieveBytes(out dataSet, _serverStream);
             mainDataGridView.DataSource = dataSet?.Tables[0]?.DefaultView;
 
-            lblText.Text = $"Table: {dataSet?.Tables[0]?.TableName}";
+            lblText.Text = $@"Table: {dataSet?.Tables[0]?.TableName}";
 
             List<string> list;
             Utilities.RecieveBytes(out list, _serverStream);
@@ -35,7 +35,7 @@ namespace ClientApp
             var tableName = cmbTables.SelectedItem.ToString();
             Utilities.SendBytes(tableName, _serverStream);
 
-            lblText.Text = $"Table: {tableName}";
+            lblText.Text = $@"Table: {tableName}";
 
             DataSet dataSet;
             Utilities.RecieveBytes(out dataSet, _serverStream);

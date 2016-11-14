@@ -91,6 +91,7 @@
             // 
             // btnUpdateTable
             // 
+            this.btnUpdateTable.Enabled = false;
             this.btnUpdateTable.Location = new System.Drawing.Point(705, 425);
             this.btnUpdateTable.Name = "btnUpdateTable";
             this.btnUpdateTable.Size = new System.Drawing.Size(75, 38);
@@ -101,6 +102,7 @@
             // 
             // btnQuery1
             // 
+            this.btnQuery1.Enabled = false;
             this.btnQuery1.Location = new System.Drawing.Point(13, 452);
             this.btnQuery1.Name = "btnQuery1";
             this.btnQuery1.Size = new System.Drawing.Size(75, 23);
@@ -111,6 +113,7 @@
             // 
             // btnQuery2
             // 
+            this.btnQuery2.Enabled = false;
             this.btnQuery2.Location = new System.Drawing.Point(13, 481);
             this.btnQuery2.Name = "btnQuery2";
             this.btnQuery2.Size = new System.Drawing.Size(75, 23);
@@ -121,6 +124,7 @@
             // 
             // btnQuery3
             // 
+            this.btnQuery3.Enabled = false;
             this.btnQuery3.Location = new System.Drawing.Point(13, 510);
             this.btnQuery3.Name = "btnQuery3";
             this.btnQuery3.Size = new System.Drawing.Size(75, 23);
