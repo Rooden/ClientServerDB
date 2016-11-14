@@ -145,6 +145,7 @@
             // 
             // txtEdit
             // 
+            this.txtEdit.Enabled = false;
             this.txtEdit.Location = new System.Drawing.Point(599, 435);
             this.txtEdit.Name = "txtEdit";
             this.txtEdit.Size = new System.Drawing.Size(100, 20);

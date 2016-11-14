@@ -7,22 +7,20 @@ namespace ServerApp
 {
     internal partial class Server
     {
-        private static SqlDataAdapter _adapter;
-
         private static DataSet GetDataFromTable(string tableName = "PERSON")
         {
             var dataSet = new DataSet();
 
             try
             {
-                _adapter = new SqlDataAdapter($@"select * from {tableName}", _connection);
+                var adapter = new SqlDataAdapter($@"select * from {tableName}", _connection);
 
-                _adapter.FillSchema(dataSet, SchemaType.Source, tableName);
-                _adapter.Fill(dataSet, tableName);
+                adapter.FillSchema(dataSet, SchemaType.Source, tableName);
+                adapter.Fill(dataSet, tableName);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Debug Mode\n" + ex.Message);
+                Console.WriteLine("Error! " + ex.Message);
             }
 
             return dataSet;
@@ -31,18 +29,19 @@ namespace ServerApp
         private static List<string> GetAllTableNames()
         {
             var result = new List<string>();
-            var command =
-                new SqlCommand(@"SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_TYPE LIKE '%TABLE%'",
-                    _connection);
-            using (var reader = command.ExecuteReader())
+            var query = @"SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_TYPE LIKE '%TABLE%'";
+            using (var command = new SqlCommand(query, _connection))
             {
-                if (!reader.HasRows)
-                    return result;
-
-                while (reader.Read())
+                using (var reader = command.ExecuteReader())
                 {
-                    var item = reader.GetString(reader.GetOrdinal("TABLE_NAME"));
-                    result.Add(item);
+                    if (!reader.HasRows)
+                        return result;
+
+                    while (reader.Read())
+                    {
+                        var item = reader.GetString(reader.GetOrdinal("TABLE_NAME"));
+                        result.Add(item);
+                    }
                 }
             }
 
@@ -93,30 +92,29 @@ namespace ServerApp
             {
                 var adapter = new SqlDataAdapter(query, _connection);
 
+                Console.WriteLine("Execute Query.");
                 adapter.FillSchema(dataSet, SchemaType.Source);
                 adapter.Fill(dataSet);
+                Console.WriteLine("Executed successfuly!");
                 Utilities.SendBytes(dataSet, _clientStream);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Debug Mode\n" + ex.Message);
+                Console.WriteLine("Error! " + ex.Message);
             }
         }
 
         private static void EditData()
         {
-            //Utilities.EditTable editTable;
-            Dictionary<string, string> editTable2;
-            Utilities.RecieveBytes(out editTable2, _clientStream);
+            Dictionary<string, string> editTable;
+            Utilities.RecieveBytes(out editTable, _clientStream);
 
-            var tname = editTable2["tableName"];
-            var cname = editTable2["columnName"];
-            var nvalue = editTable2["newValue"];
-            var id = editTable2["ID"];
-            var updateQuery = $@"UPDATE {tname} SET {cname} = N'{nvalue}' WHERE {tname}_ID = {id}";
+            var updateQuery = $@"UPDATE {editTable["tableName"]}
+                    SET {editTable["columnName"]} = N'{editTable["newValue"]}'
+                    WHERE {editTable["tableName"]}_ID = {editTable["ID"]}";
             try
             {
-                Console.WriteLine("Start edit.");
+                Console.WriteLine($"Editing table {editTable["tableName"]}.");
                 using (var command = new SqlCommand(updateQuery, _connection))
                 {
                     command.ExecuteNonQuery();
@@ -127,20 +125,6 @@ namespace ServerApp
             {
                 Console.WriteLine("Error! " + ex.Message);
             }
-            /*var updateQuery =
-                $@"UPDATE {editTable.tableName} SET {editTable.columnName} = N'{editTable.newValue}' WHERE {editTable
-                    .tableName}_ID = {editTable.ID}";
-
-            try
-            {
-                Console.WriteLine("Start edit.");
-                var command = new SqlCommand(updateQuery, _connection);
-                Console.WriteLine("Update successful!");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error! " + ex.Message);
-            }*/
         }
     }
 }

@@ -42,19 +42,23 @@ namespace ClientApp
             mainDataGridView.DataSource = dataSet?.Tables[tableName]?.DefaultView;
         }
 
+        private void SelectTable(DataGridView mainDataGridView, Label lblText)
+        {
+            mainDataGridView.DataSource = null;
+
+            Utilities.SendBytes(Utilities.ClientStates.SelectTable, _serverStream);
+
+            var tableName = lblText.Text.Replace("Table: ", "");
+            Utilities.SendBytes(tableName, _serverStream);
+
+            DataSet dataSet;
+            Utilities.RecieveBytes(out dataSet, _serverStream);
+            mainDataGridView.DataSource = dataSet?.Tables[tableName]?.DefaultView;
+        }
+
         public void UpdateTable(DataGridView mainDataGridView, TextBox txtEdit, Label lblText)
         {
             Utilities.SendBytes(Utilities.ClientStates.Edit, _serverStream);
-
-            /*var editTable = new Utilities.EditTable
-            {
-                tableName = lblText.Text.Replace("Table: ", ""),
-                ID = mainDataGridView.CurrentCell.RowIndex,
-                columnName = mainDataGridView.Columns[mainDataGridView.CurrentCell.ColumnIndex].Name,
-                newValue = txtEdit.Text
-            };
-
-            Utilities.SendBytes(editTable, _serverStream);*/
 
             var editTable = new Dictionary<string, string>
             {
@@ -65,6 +69,8 @@ namespace ClientApp
             };
 
             Utilities.SendBytes(editTable, _serverStream);
+
+            SelectTable(mainDataGridView, lblText);
         }
 
         public void ExecuteQuery(DataGridView mainDataGridView, string query)
