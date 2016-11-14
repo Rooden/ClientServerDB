@@ -22,6 +22,7 @@ namespace ClientApp
             btnQuery1.Enabled = true;
             btnQuery2.Enabled = true;
             btnQuery3.Enabled = true;
+            btnUpdateTable.Enabled = true;
             btnSelectTable.Enabled = true;
             btnConnectServer.Enabled = false;
             btnDisconnectServer.Enabled = true;
@@ -51,7 +52,7 @@ namespace ClientApp
 
         private void btnUpdateTable_Click(object sender, EventArgs e)
         {
-            //_client.UpdateTable(mainDataGridView);
+            _client.UpdateTable(mainDataGridView, txtEdit, lblText);
         }
 
         private void btnQuery1_Click(object sender, EventArgs e)

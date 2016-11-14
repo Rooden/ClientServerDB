@@ -74,7 +74,7 @@ namespace ServerApp
                         break;
 
                     case Utilities.ClientStates.Edit:
-                        //EditData();
+                        EditData();
                         break;
 
                     case Utilities.ClientStates.DisconectFromServer:

@@ -7,16 +7,18 @@ namespace ServerApp
 {
     internal partial class Server
     {
+        private static SqlDataAdapter _adapter;
+
         private static DataSet GetDataFromTable(string tableName = "PERSON")
         {
             var dataSet = new DataSet();
 
             try
             {
-                var adapter = new SqlDataAdapter($@"select * from {tableName}", _connection);
+                _adapter = new SqlDataAdapter($@"select * from {tableName}", _connection);
 
-                adapter.FillSchema(dataSet, SchemaType.Source, tableName);
-                adapter.Fill(dataSet, tableName);
+                _adapter.FillSchema(dataSet, SchemaType.Source, tableName);
+                _adapter.Fill(dataSet, tableName);
             }
             catch (Exception ex)
             {
@@ -103,19 +105,39 @@ namespace ServerApp
 
         private static void EditData()
         {
+            //Utilities.EditTable editTable;
+            Dictionary<string, string> editTable2;
+            Utilities.RecieveBytes(out editTable2, _clientStream);
+
+            var tname = editTable2["tableName"];
+            var cname = editTable2["columnName"];
+            var nvalue = editTable2["newValue"];
+            var id = editTable2["ID"];
+            var updateQuery = $@"UPDATE {tname} SET {cname} = N'{nvalue}' WHERE {tname}_ID = {id}";
             try
             {
-                //var builder = new SqlCommandBuilder(adapter);
-                DataTable dataTable;
-                Console.WriteLine("Recieving dataSet for Update.");
-                Utilities.RecieveBytes(out dataTable, _clientStream);
-                //adapter.Update(dataTable);
-                Console.WriteLine("Update table was successful.");
+                Console.WriteLine("Start edit.");
+                var command = new SqlCommand(updateQuery, _connection);
+                Console.WriteLine("Update successful!");
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Update table error! " + ex.Message);
+                Console.WriteLine("Error! " + ex.Message);
             }
+            /*var updateQuery =
+                $@"UPDATE {editTable.tableName} SET {editTable.columnName} = N'{editTable.newValue}' WHERE {editTable
+                    .tableName}_ID = {editTable.ID}";
+
+            try
+            {
+                Console.WriteLine("Start edit.");
+                var command = new SqlCommand(updateQuery, _connection);
+                Console.WriteLine("Update successful!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error! " + ex.Message);
+            }*/
         }
     }
 }

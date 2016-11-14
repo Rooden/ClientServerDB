@@ -42,27 +42,29 @@ namespace ClientApp
             mainDataGridView.DataSource = dataSet?.Tables[tableName]?.DefaultView;
         }
 
-        public void UpdateTable(DataGridView mainDataGridView)
+        public void UpdateTable(DataGridView mainDataGridView, TextBox txtEdit, Label lblText)
         {
             Utilities.SendBytes(Utilities.ClientStates.Edit, _serverStream);
 
-            var dataTable = new DataTable();
-            foreach (DataGridViewColumn col in mainDataGridView.Columns)
+            /*var editTable = new Utilities.EditTable
             {
-                dataTable.Columns.Add(col.HeaderText);
-            }
+                tableName = lblText.Text.Replace("Table: ", ""),
+                ID = mainDataGridView.CurrentCell.RowIndex,
+                columnName = mainDataGridView.Columns[mainDataGridView.CurrentCell.ColumnIndex].Name,
+                newValue = txtEdit.Text
+            };
 
-            foreach (DataGridViewRow row in mainDataGridView.Rows)
+            Utilities.SendBytes(editTable, _serverStream);*/
+
+            var editTable = new Dictionary<string, string>
             {
-                var dRow = dataTable.NewRow();
-                foreach (DataGridViewCell cell in row.Cells)
-                {
-                    dRow[cell.ColumnIndex] = cell.Value;
-                }
-                dataTable.Rows.Add(dRow);
-            }
+                { "tableName", lblText.Text.Replace("Table: ", "") },
+                { "ID", (mainDataGridView.CurrentCell.RowIndex + 1).ToString() },
+                { "columnName" , mainDataGridView.Columns[mainDataGridView.CurrentCell.ColumnIndex].Name },
+                { "newValue" , txtEdit.Text }
+            };
 
-            Utilities.SendBytes(dataTable, _serverStream);
+            Utilities.SendBytes(editTable, _serverStream);
         }
 
         public void ExecuteQuery(DataGridView mainDataGridView, string query)

@@ -17,6 +17,14 @@ namespace ServerApp
             DisconectFromServer
         }
 
+        public struct EditTable
+        {
+            public string tableName;
+            public int ID;
+            public string columnName;
+            public string newValue;
+        }
+
         public static byte[] GetBytesFrom(object data)
         {
             var memoryStream = new MemoryStream();
