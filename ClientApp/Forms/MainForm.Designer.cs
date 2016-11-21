@@ -28,11 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnConnectServer = new System.Windows.Forms.Button();
             this.mainDataGridView = new System.Windows.Forms.DataGridView();
             this.cmbTables = new System.Windows.Forms.ComboBox();
             this.btnSelectTable = new System.Windows.Forms.Button();
-            this.btnDisconnectServer = new System.Windows.Forms.Button();
             this.btnUpdateTable = new System.Windows.Forms.Button();
             this.btnQuery1 = new System.Windows.Forms.Button();
             this.btnQuery2 = new System.Windows.Forms.Button();
@@ -40,18 +38,14 @@
             this.lblText = new System.Windows.Forms.Label();
             this.txtEdit = new System.Windows.Forms.TextBox();
             this.lblNewValue = new System.Windows.Forms.Label();
+            this.lstTables = new System.Windows.Forms.ListBox();
+            this.lstTags = new System.Windows.Forms.ListBox();
+            this.lstQuaries = new System.Windows.Forms.ListBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.mainDataGridView)).BeginInit();
             this.SuspendLayout();
-            // 
-            // btnConnectServer
-            // 
-            this.btnConnectServer.Location = new System.Drawing.Point(624, 495);
-            this.btnConnectServer.Name = "btnConnectServer";
-            this.btnConnectServer.Size = new System.Drawing.Size(75, 38);
-            this.btnConnectServer.TabIndex = 0;
-            this.btnConnectServer.Text = "Connect To Server";
-            this.btnConnectServer.UseVisualStyleBackColor = true;
-            this.btnConnectServer.Click += new System.EventHandler(this.btnConnectServer_Click);
             // 
             // mainDataGridView
             // 
@@ -61,21 +55,21 @@
             this.mainDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.mainDataGridView.Location = new System.Drawing.Point(13, 29);
             this.mainDataGridView.Name = "mainDataGridView";
-            this.mainDataGridView.Size = new System.Drawing.Size(767, 389);
+            this.mainDataGridView.Size = new System.Drawing.Size(846, 231);
             this.mainDataGridView.TabIndex = 1;
             // 
             // cmbTables
             // 
             this.cmbTables.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbTables.Location = new System.Drawing.Point(13, 425);
+            this.cmbTables.Enabled = false;
+            this.cmbTables.Location = new System.Drawing.Point(643, 331);
             this.cmbTables.Name = "cmbTables";
             this.cmbTables.Size = new System.Drawing.Size(121, 21);
             this.cmbTables.TabIndex = 2;
             // 
             // btnSelectTable
             // 
-            this.btnSelectTable.Enabled = false;
-            this.btnSelectTable.Location = new System.Drawing.Point(140, 425);
+            this.btnSelectTable.Location = new System.Drawing.Point(770, 331);
             this.btnSelectTable.Name = "btnSelectTable";
             this.btnSelectTable.Size = new System.Drawing.Size(75, 23);
             this.btnSelectTable.TabIndex = 3;
@@ -83,21 +77,9 @@
             this.btnSelectTable.UseVisualStyleBackColor = true;
             this.btnSelectTable.Click += new System.EventHandler(this.btnSelectTable_Click);
             // 
-            // btnDisconnectServer
-            // 
-            this.btnDisconnectServer.Enabled = false;
-            this.btnDisconnectServer.Location = new System.Drawing.Point(705, 495);
-            this.btnDisconnectServer.Name = "btnDisconnectServer";
-            this.btnDisconnectServer.Size = new System.Drawing.Size(75, 38);
-            this.btnDisconnectServer.TabIndex = 4;
-            this.btnDisconnectServer.Text = "Disconect from Server";
-            this.btnDisconnectServer.UseVisualStyleBackColor = true;
-            this.btnDisconnectServer.Click += new System.EventHandler(this.btnDisconnectServer_Click);
-            // 
             // btnUpdateTable
             // 
-            this.btnUpdateTable.Enabled = false;
-            this.btnUpdateTable.Location = new System.Drawing.Point(705, 425);
+            this.btnUpdateTable.Location = new System.Drawing.Point(784, 266);
             this.btnUpdateTable.Name = "btnUpdateTable";
             this.btnUpdateTable.Size = new System.Drawing.Size(75, 38);
             this.btnUpdateTable.TabIndex = 5;
@@ -107,8 +89,7 @@
             // 
             // btnQuery1
             // 
-            this.btnQuery1.Enabled = false;
-            this.btnQuery1.Location = new System.Drawing.Point(13, 452);
+            this.btnQuery1.Location = new System.Drawing.Point(643, 358);
             this.btnQuery1.Name = "btnQuery1";
             this.btnQuery1.Size = new System.Drawing.Size(75, 23);
             this.btnQuery1.TabIndex = 6;
@@ -118,8 +99,7 @@
             // 
             // btnQuery2
             // 
-            this.btnQuery2.Enabled = false;
-            this.btnQuery2.Location = new System.Drawing.Point(13, 481);
+            this.btnQuery2.Location = new System.Drawing.Point(643, 387);
             this.btnQuery2.Name = "btnQuery2";
             this.btnQuery2.Size = new System.Drawing.Size(75, 23);
             this.btnQuery2.TabIndex = 7;
@@ -129,8 +109,7 @@
             // 
             // btnQuery3
             // 
-            this.btnQuery3.Enabled = false;
-            this.btnQuery3.Location = new System.Drawing.Point(13, 510);
+            this.btnQuery3.Location = new System.Drawing.Point(643, 416);
             this.btnQuery3.Name = "btnQuery3";
             this.btnQuery3.Size = new System.Drawing.Size(75, 23);
             this.btnQuery3.TabIndex = 8;
@@ -149,26 +128,93 @@
             // 
             // txtEdit
             // 
-            this.txtEdit.Enabled = false;
-            this.txtEdit.Location = new System.Drawing.Point(599, 435);
+            this.txtEdit.Location = new System.Drawing.Point(685, 276);
             this.txtEdit.Name = "txtEdit";
-            this.txtEdit.Size = new System.Drawing.Size(100, 20);
+            this.txtEdit.Size = new System.Drawing.Size(93, 20);
             this.txtEdit.TabIndex = 10;
             // 
             // lblNewValue
             // 
             this.lblNewValue.AutoSize = true;
-            this.lblNewValue.Location = new System.Drawing.Point(532, 438);
+            this.lblNewValue.Location = new System.Drawing.Point(618, 279);
             this.lblNewValue.Name = "lblNewValue";
             this.lblNewValue.Size = new System.Drawing.Size(61, 13);
             this.lblNewValue.TabIndex = 11;
             this.lblNewValue.Text = "New value:";
             // 
+            // lstTables
+            // 
+            this.lstTables.FormattingEnabled = true;
+            this.lstTables.Location = new System.Drawing.Point(12, 289);
+            this.lstTables.Name = "lstTables";
+            this.lstTables.Size = new System.Drawing.Size(135, 186);
+            this.lstTables.TabIndex = 12;
+            this.lstTables.SelectedIndexChanged += new System.EventHandler(this.lstTables_SelectedIndexChanged);
+            // 
+            // lstTags
+            // 
+            this.lstTags.FormattingEnabled = true;
+            this.lstTags.Items.AddRange(new object[] {
+            "Вывести студентов с нарушениями",
+            "Вывести студентов по группам и специальностям",
+            "Вывести средние оценки студентов"});
+            this.lstTags.Location = new System.Drawing.Point(153, 289);
+            this.lstTags.Name = "lstTags";
+            this.lstTags.Size = new System.Drawing.Size(354, 82);
+            this.lstTags.TabIndex = 13;
+            this.lstTags.SelectedIndexChanged += new System.EventHandler(this.lstTags_SelectedIndexChanged);
+            // 
+            // lstQuaries
+            // 
+            this.lstQuaries.FormattingEnabled = true;
+            this.lstQuaries.Items.AddRange(new object[] {
+            "Вывести всех студентов, которые учатся на Системной инженерии",
+            "Вывести всех студентов, которые учатся только на 5",
+            "Вывести студентов, которые опоздали 17 мая"});
+            this.lstQuaries.Location = new System.Drawing.Point(154, 393);
+            this.lstQuaries.Name = "lstQuaries";
+            this.lstQuaries.Size = new System.Drawing.Size(353, 82);
+            this.lstQuaries.TabIndex = 14;
+            this.lstQuaries.SelectedIndexChanged += new System.EventHandler(this.lstQuaries_SelectedIndexChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(154, 273);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(34, 13);
+            this.label1.TabIndex = 15;
+            this.label1.Text = "Tags:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(154, 377);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(46, 13);
+            this.label2.TabIndex = 16;
+            this.label2.Text = "Quaries:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 273);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(42, 13);
+            this.label3.TabIndex = 17;
+            this.label3.Text = "Tables:";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(792, 545);
+            this.ClientSize = new System.Drawing.Size(871, 482);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lstQuaries);
+            this.Controls.Add(this.lstTags);
+            this.Controls.Add(this.lstTables);
             this.Controls.Add(this.lblNewValue);
             this.Controls.Add(this.txtEdit);
             this.Controls.Add(this.lblText);
@@ -176,11 +222,9 @@
             this.Controls.Add(this.btnQuery2);
             this.Controls.Add(this.btnQuery1);
             this.Controls.Add(this.btnUpdateTable);
-            this.Controls.Add(this.btnDisconnectServer);
             this.Controls.Add(this.btnSelectTable);
             this.Controls.Add(this.cmbTables);
             this.Controls.Add(this.mainDataGridView);
-            this.Controls.Add(this.btnConnectServer);
             this.Name = "MainForm";
             this.Text = "Client";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
@@ -191,12 +235,9 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Button btnConnectServer;
         private System.Windows.Forms.DataGridView mainDataGridView;
         private System.Windows.Forms.ComboBox cmbTables;
         private System.Windows.Forms.Button btnSelectTable;
-        private System.Windows.Forms.Button btnDisconnectServer;
         private System.Windows.Forms.Button btnUpdateTable;
         private System.Windows.Forms.Button btnQuery1;
         private System.Windows.Forms.Button btnQuery2;
@@ -204,6 +245,12 @@
         private System.Windows.Forms.Label lblText;
         private System.Windows.Forms.TextBox txtEdit;
         private System.Windows.Forms.Label lblNewValue;
+        private System.Windows.Forms.ListBox lstTables;
+        private System.Windows.Forms.ListBox lstTags;
+        private System.Windows.Forms.ListBox lstQuaries;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
     }
 }
 

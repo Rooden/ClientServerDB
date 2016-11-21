@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServerApp.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -55,7 +56,7 @@ namespace ServerApp
                 return;
 
             Console.WriteLine("Sending dataSet bytes.");
-            Utilities.SendBytes(dataSet, _clientStream);
+            TransferUtilities.SendBytes(dataSet, _clientStream);
             Console.WriteLine("Finish.");
 
             var list = GetAllTableNames();
@@ -63,21 +64,21 @@ namespace ServerApp
                 return;
 
             Console.WriteLine("Sending list bytes.");
-            Utilities.SendBytes(list, _clientStream);
+            TransferUtilities.SendBytes(list, _clientStream);
             Console.WriteLine("Finish.");
         }
 
         private void SelectTable()
         {
             string tableName;
-            Utilities.RecieveBytes(out tableName, _clientStream);
+            TransferUtilities.RecieveBytes(out tableName, _clientStream);
 
             var dataSet = GetDataFromTable(tableName);
             if (dataSet == null)
                 return;
 
             Console.WriteLine("Sending dataSet bytes.");
-            Utilities.SendBytes(dataSet, _clientStream);
+            TransferUtilities.SendBytes(dataSet, _clientStream);
             Console.WriteLine("Finish.");
         }
 
@@ -86,7 +87,7 @@ namespace ServerApp
             var dataSet = new DataSet();
 
             string query;
-            Utilities.RecieveBytes(out query, _clientStream);
+            TransferUtilities.RecieveBytes(out query, _clientStream);
 
             try
             {
@@ -96,7 +97,7 @@ namespace ServerApp
                 adapter.FillSchema(dataSet, SchemaType.Source);
                 adapter.Fill(dataSet);
                 Console.WriteLine("Executed successfuly!");
-                Utilities.SendBytes(dataSet, _clientStream);
+                TransferUtilities.SendBytes(dataSet, _clientStream);
             }
             catch (Exception ex)
             {
@@ -107,7 +108,7 @@ namespace ServerApp
         private void EditData()
         {
             Dictionary<string, string> editTable;
-            Utilities.RecieveBytes(out editTable, _clientStream);
+            TransferUtilities.RecieveBytes(out editTable, _clientStream);
 
             var updateQuery = $@"UPDATE {editTable["tableName"]}
                     SET {editTable["columnName"]} = N'{editTable["newValue"]}'

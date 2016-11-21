@@ -45,9 +45,9 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Server.cs" />
-    <Compile Include="ServerMethods.cs" />
-    <Compile Include="Utilities.cs" />
+    <Compile Include="Server\Server.cs" />
+    <Compile Include="Server\ServerMethods.cs" />
+    <Compile Include="Utilities\TransferUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Windows.Forms;
 
-namespace ClientApp
+namespace ClientApp.Utilities
 {
     internal static class DataCleaner
     {

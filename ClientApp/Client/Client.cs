@@ -1,9 +1,9 @@
-﻿using ServerApp;
+﻿using ServerApp.Utilities;
 using System.Net.Sockets;
 
 namespace ClientApp
 {
-    internal partial class Client
+    public partial class Client
     {
         private NetworkStream _serverStream;
         private TcpClient _server;
@@ -23,7 +23,7 @@ namespace ClientApp
 
             _activeConnection = false;
 
-            Utilities.SendBytes(Utilities.ClientStates.DisconectFromServer, _serverStream);
+            TransferUtilities.SendBytes(TransferUtilities.ClientStates.DisconectFromServer, _serverStream);
             _serverStream.Close();
             _server.Close();
         }

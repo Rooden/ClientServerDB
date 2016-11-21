@@ -1,87 +1,106 @@
-﻿using ServerApp;
+﻿using ServerApp.Utilities;
 using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
 
 namespace ClientApp
 {
-    internal partial class Client
+    public partial class Client
     {
-        public void GetInfoFromServer(DataGridView mainDataGridView, ComboBox cmbTables, Label lblText)
+        public void GetInfoFromServer(DataGridView dataGridView, ComboBox cmbTables, ListBox lstBox, Label lblText)
         {
-            Utilities.SendBytes(Utilities.ClientStates.ConnectionToServer, _serverStream);
+            TransferUtilities.SendBytes(TransferUtilities.ClientStates.ConnectionToServer, _serverStream);
 
             DataSet dataSet;
-            Utilities.RecieveBytes(out dataSet, _serverStream);
-            mainDataGridView.DataSource = dataSet?.Tables[0]?.DefaultView;
+            TransferUtilities.RecieveBytes(out dataSet, _serverStream);
+            dataGridView.DataSource = dataSet?.Tables[0]?.DefaultView;
 
             lblText.Text = $@"Table: {dataSet?.Tables[0]?.TableName}";
 
             List<string> list;
-            Utilities.RecieveBytes(out list, _serverStream);
+            TransferUtilities.RecieveBytes(out list, _serverStream);
             if (list != null)
                 foreach (var item in list)
-                    cmbTables.Items.Add(item);
+                    if (item != "STUDENT_MARKS" && item != "sysdiagrams")
+                        lstBox.Items.Add(item);
+
+            cmbTables.Items.Add("fasdfsdf");
 
             cmbTables.SelectedIndex = 0;
         }
 
-        public void SelectTable(DataGridView mainDataGridView, ComboBox cmbTables, Label lblText)
+        public void SelectTable(DataGridView dataGridView, ComboBox cmbTables, Label lblText)
         {
-            mainDataGridView.DataSource = null;
+            dataGridView.DataSource = null;
 
-            Utilities.SendBytes(Utilities.ClientStates.SelectTable, _serverStream);
+            TransferUtilities.SendBytes(TransferUtilities.ClientStates.SelectTable, _serverStream);
 
             var tableName = cmbTables.SelectedItem.ToString();
-            Utilities.SendBytes(tableName, _serverStream);
+            TransferUtilities.SendBytes(tableName, _serverStream);
 
             lblText.Text = $@"Table: {tableName}";
 
             DataSet dataSet;
-            Utilities.RecieveBytes(out dataSet, _serverStream);
-            mainDataGridView.DataSource = dataSet?.Tables[tableName]?.DefaultView;
+            TransferUtilities.RecieveBytes(out dataSet, _serverStream);
+            dataGridView.DataSource = dataSet?.Tables[tableName]?.DefaultView;
         }
 
-        private void SelectTable(DataGridView mainDataGridView, Label lblText)
+        public void SelectTable(DataGridView dataGridView, ListBox lstBox, Label lblText)
         {
-            mainDataGridView.DataSource = null;
+            dataGridView.DataSource = null;
 
-            Utilities.SendBytes(Utilities.ClientStates.SelectTable, _serverStream);
+            TransferUtilities.SendBytes(TransferUtilities.ClientStates.SelectTable, _serverStream);
 
-            var tableName = lblText.Text.Replace("Table: ", "");
-            Utilities.SendBytes(tableName, _serverStream);
+            var tableName = lstBox.SelectedItem.ToString();
+            TransferUtilities.SendBytes(tableName, _serverStream);
+
+            lblText.Text = $@"Table: {tableName}";
 
             DataSet dataSet;
-            Utilities.RecieveBytes(out dataSet, _serverStream);
-            mainDataGridView.DataSource = dataSet?.Tables[tableName]?.DefaultView;
+            TransferUtilities.RecieveBytes(out dataSet, _serverStream);
+            dataGridView.DataSource = dataSet?.Tables[tableName]?.DefaultView;
         }
 
-        public void UpdateTable(DataGridView mainDataGridView, TextBox txtEdit, Label lblText)
+        private void SelectTable(DataGridView dataGridView, Label lblText)
         {
-            Utilities.SendBytes(Utilities.ClientStates.Edit, _serverStream);
+            dataGridView.DataSource = null;
+
+            TransferUtilities.SendBytes(TransferUtilities.ClientStates.SelectTable, _serverStream);
+
+            var tableName = lblText.Text.Replace("Table: ", "");
+            TransferUtilities.SendBytes(tableName, _serverStream);
+
+            DataSet dataSet;
+            TransferUtilities.RecieveBytes(out dataSet, _serverStream);
+            dataGridView.DataSource = dataSet?.Tables[tableName]?.DefaultView;
+        }
+
+        public void UpdateTable(DataGridView dataGridView, TextBox txtEdit, Label lblText)
+        {
+            TransferUtilities.SendBytes(TransferUtilities.ClientStates.Edit, _serverStream);
 
             var editTable = new Dictionary<string, string>
             {
                 { "tableName", lblText.Text.Replace("Table: ", "") },
-                { "ID", (mainDataGridView.CurrentCell.RowIndex + 1).ToString() },
-                { "columnName" , mainDataGridView.Columns[mainDataGridView.CurrentCell.ColumnIndex].Name },
+                { "ID", (dataGridView.CurrentCell.RowIndex + 1).ToString() },
+                { "columnName" , dataGridView.Columns[dataGridView.CurrentCell.ColumnIndex].Name },
                 { "newValue" , txtEdit.Text }
             };
 
-            Utilities.SendBytes(editTable, _serverStream);
+            TransferUtilities.SendBytes(editTable, _serverStream);
 
-            SelectTable(mainDataGridView, lblText);
+            SelectTable(dataGridView, lblText);
         }
 
-        public void ExecuteQuery(DataGridView mainDataGridView, string query)
+        public void ExecuteQuery(DataGridView dataGridView, string query)
         {
-            Utilities.SendBytes(Utilities.ClientStates.Query, _serverStream);
+            TransferUtilities.SendBytes(TransferUtilities.ClientStates.Query, _serverStream);
 
-            Utilities.SendBytes(query, _serverStream);
+            TransferUtilities.SendBytes(query, _serverStream);
 
             DataSet dataSet;
-            Utilities.RecieveBytes(out dataSet, _serverStream);
-            mainDataGridView.DataSource = dataSet?.Tables[0]?.DefaultView;
+            TransferUtilities.RecieveBytes(out dataSet, _serverStream);
+            dataGridView.DataSource = dataSet?.Tables[0]?.DefaultView;
         }
     }
 }

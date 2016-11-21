@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServerApp.Utilities;
+using System;
 using System.Data.SqlClient;
 using System.Net;
 using System.Net.Sockets;
@@ -59,28 +60,28 @@ namespace ServerApp
         {
             while (true)
             {
-                Utilities.ClientStates currentMode;
-                Utilities.RecieveBytes(out currentMode, _clientStream);
+                TransferUtilities.ClientStates currentMode;
+                TransferUtilities.RecieveBytes(out currentMode, _clientStream);
 
                 switch (currentMode)
                 {
-                    case Utilities.ClientStates.ConnectionToServer:
+                    case TransferUtilities.ClientStates.ConnectionToServer:
                         ConnectionToServer();
                         break;
 
-                    case Utilities.ClientStates.SelectTable:
+                    case TransferUtilities.ClientStates.SelectTable:
                         SelectTable();
                         break;
 
-                    case Utilities.ClientStates.Query:
+                    case TransferUtilities.ClientStates.Query:
                         ExecuteQuery();
                         break;
 
-                    case Utilities.ClientStates.Edit:
+                    case TransferUtilities.ClientStates.Edit:
                         EditData();
                         break;
 
-                    case Utilities.ClientStates.DisconectFromServer:
+                    case TransferUtilities.ClientStates.DisconectFromServer:
                         return;
 
                     default:
