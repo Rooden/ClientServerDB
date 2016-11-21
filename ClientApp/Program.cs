@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClientApp.Forms;
+using System;
 using System.Windows.Forms;
 
 namespace ClientApp
@@ -10,7 +11,7 @@ namespace ClientApp
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new MainForm());
         }
     }
 }

@@ -5,14 +5,14 @@ using System.Net.Sockets;
 
 namespace ServerApp
 {
-    internal partial class Server
+    internal partial class Server : IDisposable
     {
         private TcpListener _server;
         private TcpClient _client;
-        private static NetworkStream _clientStream;
-        private static SqlConnection _connection;
+        private NetworkStream _clientStream;
+        private SqlConnection _connection;
 
-        public void StartServer(int port, string ip = "127.0.0.1")
+        public void StartServer(int port, string ip)
         {
             var ipAddress = IPAddress.Parse(ip);
 
@@ -22,7 +22,11 @@ namespace ServerApp
             Console.WriteLine("Server start successful!");
 
             _connection = new SqlConnection(
-                @"Server = localhost; User Id = RDadmin; Password = 1324; Network Library = DBMSSOCN; Initial Catalog = KICT"
+                @"Server = localhost;
+                    User Id = RDadmin;
+                    Password = 1324;
+                    Network Library = DBMSSOCN;
+                    Initial Catalog = KICT"
             );
 
             try
@@ -41,7 +45,7 @@ namespace ServerApp
             {
                 Console.WriteLine("Looking for clients.");
                 _client = _server.AcceptTcpClient();
-                Console.WriteLine("Client was found!");
+                Console.WriteLine($"Client was found! IP - {_client.Client.RemoteEndPoint}"); // RemoteEndPoint OR LocalEndPoint
                 _clientStream = _client.GetStream();
 
                 TakingRequests();
@@ -51,14 +55,13 @@ namespace ServerApp
             }
         }
 
-        private static void TakingRequests()
+        private void TakingRequests()
         {
             while (true)
             {
                 Utilities.ClientStates currentMode;
                 Utilities.RecieveBytes(out currentMode, _clientStream);
 
-                // ReSharper disable once SwitchStatementMissingSomeCases
                 switch (currentMode)
                 {
                     case Utilities.ClientStates.ConnectionToServer:
@@ -79,11 +82,15 @@ namespace ServerApp
 
                     case Utilities.ClientStates.DisconectFromServer:
                         return;
+
+                    default:
+                        Console.WriteLine("What is this invalid state?");
+                        break;
                 }
             }
         }
 
-        ~Server()
+        public void Dispose()
         {
             _connection.Close();
             _server.Stop();

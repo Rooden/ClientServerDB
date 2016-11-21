@@ -4,9 +4,11 @@
     {
         private static void Main()
         {
-            var server = new Server();
-            server.StartServer(200);
-            server.ListenClients();
+            using (var server = new Server())
+            {
+                server.StartServer(200, "127.0.0.1");
+                server.ListenClients();
+            }
         }
     }
 }

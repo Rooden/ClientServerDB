@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace ClientApp
+namespace ClientApp.Forms
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         private Client _client;
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
         }
@@ -15,9 +15,10 @@ namespace ClientApp
         private void btnConnectServer_Click(object sender, EventArgs e)
         {
             _client = new Client();
-            _client.ConnectToServer(200);
+            _client.ConnectToServer(200, "127.0.0.1");
 
             _client.GetInfoFromServer(mainDataGridView, cmbTables, lblText);
+            DataCleaner.CleanDataGridView(mainDataGridView);
 
             btnQuery1.Enabled = true;
             btnQuery2.Enabled = true;
@@ -33,6 +34,7 @@ namespace ClientApp
         private void btnSelectTable_Click(object sender, EventArgs e)
         {
             _client.SelectTable(mainDataGridView, cmbTables, lblText);
+            DataCleaner.CleanDataGridView(mainDataGridView);
         }
 
         private void btnDisconnectServer_Click(object sender, EventArgs e)
@@ -60,6 +62,7 @@ namespace ClientApp
         private void btnUpdateTable_Click(object sender, EventArgs e)
         {
             _client.UpdateTable(mainDataGridView, txtEdit, lblText);
+            DataCleaner.CleanDataGridView(mainDataGridView);
         }
 
         private void btnQuery1_Click(object sender, EventArgs e)
@@ -78,6 +81,7 @@ namespace ClientApp
 	                WHERE spec.Speciality_name = N'Системная инженерия'
 	                ORDER BY [ФИО]";
             _client.ExecuteQuery(mainDataGridView, query);
+            DataCleaner.CleanDataGridView(mainDataGridView);
         }
 
         private void btnQuery2_Click(object sender, EventArgs e)
@@ -95,6 +99,7 @@ namespace ClientApp
 	                HAVING AVG(stud_marks.Mark_ID) = 5
 	                ORDER BY [ФИО]";
             _client.ExecuteQuery(mainDataGridView, query);
+            DataCleaner.CleanDataGridView(mainDataGridView);
         }
 
         private void btnQuery3_Click(object sender, EventArgs e)
@@ -120,11 +125,12 @@ namespace ClientApp
 	                WHERE viol_kind.Violation_kind_name = N'Опоздание' AND viol.Violation_date = '2016-05-17'
 	                ORDER BY [ФИО]";
             _client.ExecuteQuery(mainDataGridView, query);
+            DataCleaner.CleanDataGridView(mainDataGridView);
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            _client.DisconnectFromServer();
+            _client?.DisconnectFromServer();
         }
     }
 }

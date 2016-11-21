@@ -17,15 +17,7 @@ namespace ServerApp
             DisconectFromServer
         }
 
-        public struct EditTable
-        {
-            public string tableName;
-            public int ID;
-            public string columnName;
-            public string newValue;
-        }
-
-        public static byte[] GetBytesFrom(object data)
+        public static byte[] GetBytesFrom<T>(T data)
         {
             var memoryStream = new MemoryStream();
 
@@ -38,7 +30,7 @@ namespace ServerApp
             return resultBytes;
         }
 
-        public static void SendBytes(object data, NetworkStream stream)
+        public static void SendBytes<T>(T data, NetworkStream stream)
         {
             var resultBytes = GetBytesFrom(data);
             stream.Write(resultBytes, 0, resultBytes.Length);

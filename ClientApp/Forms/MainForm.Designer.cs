@@ -1,6 +1,6 @@
-﻿namespace ClientApp
+﻿namespace ClientApp.Forms
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -55,6 +55,9 @@
             // 
             // mainDataGridView
             // 
+            this.mainDataGridView.AllowUserToAddRows = false;
+            this.mainDataGridView.AllowUserToDeleteRows = false;
+            this.mainDataGridView.AllowUserToOrderColumns = true;
             this.mainDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.mainDataGridView.Location = new System.Drawing.Point(13, 29);
             this.mainDataGridView.Name = "mainDataGridView";
@@ -161,7 +164,7 @@
             this.lblNewValue.TabIndex = 11;
             this.lblNewValue.Text = "New value:";
             // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -178,7 +181,7 @@
             this.Controls.Add(this.cmbTables);
             this.Controls.Add(this.mainDataGridView);
             this.Controls.Add(this.btnConnectServer);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "Client";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.mainDataGridView)).EndInit();

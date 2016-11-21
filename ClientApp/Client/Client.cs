@@ -9,7 +9,7 @@ namespace ClientApp
         private TcpClient _server;
         private bool _activeConnection;
 
-        public void ConnectToServer(int port, string ip = "127.0.0.1")
+        public void ConnectToServer(int port, string ip)
         {
             _server = new TcpClient(ip, port);
             _serverStream = _server.GetStream();

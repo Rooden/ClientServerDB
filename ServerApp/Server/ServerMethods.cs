@@ -7,7 +7,7 @@ namespace ServerApp
 {
     internal partial class Server
     {
-        private static DataSet GetDataFromTable(string tableName = "PERSON")
+        private DataSet GetDataFromTable(string tableName = "PERSON")
         {
             var dataSet = new DataSet();
 
@@ -20,13 +20,13 @@ namespace ServerApp
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error! " + ex.Message);
+                Console.WriteLine("Debug Mode\n" + ex.Message + "\n");
             }
 
             return dataSet;
         }
 
-        private static List<string> GetAllTableNames()
+        private List<string> GetAllTableNames()
         {
             var result = new List<string>();
             var query = @"SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_TYPE LIKE '%TABLE%'";
@@ -48,7 +48,7 @@ namespace ServerApp
             return result;
         }
 
-        private static void ConnectionToServer()
+        private void ConnectionToServer()
         {
             var dataSet = GetDataFromTable();
             if (dataSet == null)
@@ -67,7 +67,7 @@ namespace ServerApp
             Console.WriteLine("Finish.");
         }
 
-        private static void SelectTable()
+        private void SelectTable()
         {
             string tableName;
             Utilities.RecieveBytes(out tableName, _clientStream);
@@ -81,7 +81,7 @@ namespace ServerApp
             Console.WriteLine("Finish.");
         }
 
-        private static void ExecuteQuery()
+        private void ExecuteQuery()
         {
             var dataSet = new DataSet();
 
@@ -100,11 +100,11 @@ namespace ServerApp
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error! " + ex.Message);
+                Console.WriteLine("Debug Mode\n" + ex.Message + "\n");
             }
         }
 
-        private static void EditData()
+        private void EditData()
         {
             Dictionary<string, string> editTable;
             Utilities.RecieveBytes(out editTable, _clientStream);
@@ -123,7 +123,7 @@ namespace ServerApp
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error! " + ex.Message);
+                Console.WriteLine("Debug Mode\n" + ex.Message + "\n");
             }
         }
     }
