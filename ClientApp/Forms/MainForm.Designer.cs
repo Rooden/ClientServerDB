@@ -29,18 +29,13 @@
         private void InitializeComponent()
         {
             this.mainDataGridView = new System.Windows.Forms.DataGridView();
-            this.cmbTables = new System.Windows.Forms.ComboBox();
-            this.btnSelectTable = new System.Windows.Forms.Button();
             this.btnUpdateTable = new System.Windows.Forms.Button();
-            this.btnQuery1 = new System.Windows.Forms.Button();
-            this.btnQuery2 = new System.Windows.Forms.Button();
-            this.btnQuery3 = new System.Windows.Forms.Button();
             this.lblText = new System.Windows.Forms.Label();
             this.txtEdit = new System.Windows.Forms.TextBox();
             this.lblNewValue = new System.Windows.Forms.Label();
             this.lstTables = new System.Windows.Forms.ListBox();
             this.lstTags = new System.Windows.Forms.ListBox();
-            this.lstQuaries = new System.Windows.Forms.ListBox();
+            this.lstQueries = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -58,25 +53,6 @@
             this.mainDataGridView.Size = new System.Drawing.Size(846, 231);
             this.mainDataGridView.TabIndex = 1;
             // 
-            // cmbTables
-            // 
-            this.cmbTables.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbTables.Enabled = false;
-            this.cmbTables.Location = new System.Drawing.Point(643, 331);
-            this.cmbTables.Name = "cmbTables";
-            this.cmbTables.Size = new System.Drawing.Size(121, 21);
-            this.cmbTables.TabIndex = 2;
-            // 
-            // btnSelectTable
-            // 
-            this.btnSelectTable.Location = new System.Drawing.Point(770, 331);
-            this.btnSelectTable.Name = "btnSelectTable";
-            this.btnSelectTable.Size = new System.Drawing.Size(75, 23);
-            this.btnSelectTable.TabIndex = 3;
-            this.btnSelectTable.Text = "Select Table";
-            this.btnSelectTable.UseVisualStyleBackColor = true;
-            this.btnSelectTable.Click += new System.EventHandler(this.btnSelectTable_Click);
-            // 
             // btnUpdateTable
             // 
             this.btnUpdateTable.Location = new System.Drawing.Point(784, 266);
@@ -86,36 +62,6 @@
             this.btnUpdateTable.Text = "Update Table";
             this.btnUpdateTable.UseVisualStyleBackColor = true;
             this.btnUpdateTable.Click += new System.EventHandler(this.btnUpdateTable_Click);
-            // 
-            // btnQuery1
-            // 
-            this.btnQuery1.Location = new System.Drawing.Point(643, 358);
-            this.btnQuery1.Name = "btnQuery1";
-            this.btnQuery1.Size = new System.Drawing.Size(75, 23);
-            this.btnQuery1.TabIndex = 6;
-            this.btnQuery1.Text = "Query #1";
-            this.btnQuery1.UseVisualStyleBackColor = true;
-            this.btnQuery1.Click += new System.EventHandler(this.btnQuery1_Click);
-            // 
-            // btnQuery2
-            // 
-            this.btnQuery2.Location = new System.Drawing.Point(643, 387);
-            this.btnQuery2.Name = "btnQuery2";
-            this.btnQuery2.Size = new System.Drawing.Size(75, 23);
-            this.btnQuery2.TabIndex = 7;
-            this.btnQuery2.Text = "Query #2";
-            this.btnQuery2.UseVisualStyleBackColor = true;
-            this.btnQuery2.Click += new System.EventHandler(this.btnQuery2_Click);
-            // 
-            // btnQuery3
-            // 
-            this.btnQuery3.Location = new System.Drawing.Point(643, 416);
-            this.btnQuery3.Name = "btnQuery3";
-            this.btnQuery3.Size = new System.Drawing.Size(75, 23);
-            this.btnQuery3.TabIndex = 8;
-            this.btnQuery3.Text = "Query #3";
-            this.btnQuery3.UseVisualStyleBackColor = true;
-            this.btnQuery3.Click += new System.EventHandler(this.btnQuery3_Click);
             // 
             // lblText
             // 
@@ -164,18 +110,18 @@
             this.lstTags.TabIndex = 13;
             this.lstTags.SelectedIndexChanged += new System.EventHandler(this.lstTags_SelectedIndexChanged);
             // 
-            // lstQuaries
+            // lstQueries
             // 
-            this.lstQuaries.FormattingEnabled = true;
-            this.lstQuaries.Items.AddRange(new object[] {
+            this.lstQueries.FormattingEnabled = true;
+            this.lstQueries.Items.AddRange(new object[] {
             "Вывести всех студентов, которые учатся на Системной инженерии",
             "Вывести всех студентов, которые учатся только на 5",
             "Вывести студентов, которые опоздали 17 мая"});
-            this.lstQuaries.Location = new System.Drawing.Point(154, 393);
-            this.lstQuaries.Name = "lstQuaries";
-            this.lstQuaries.Size = new System.Drawing.Size(353, 82);
-            this.lstQuaries.TabIndex = 14;
-            this.lstQuaries.SelectedIndexChanged += new System.EventHandler(this.lstQuaries_SelectedIndexChanged);
+            this.lstQueries.Location = new System.Drawing.Point(154, 393);
+            this.lstQueries.Name = "lstQueries";
+            this.lstQueries.Size = new System.Drawing.Size(353, 82);
+            this.lstQueries.TabIndex = 14;
+            this.lstQueries.SelectedIndexChanged += new System.EventHandler(this.lstQueries_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -193,7 +139,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(46, 13);
             this.label2.TabIndex = 16;
-            this.label2.Text = "Quaries:";
+            this.label2.Text = "Queries:";
             // 
             // label3
             // 
@@ -212,22 +158,17 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.lstQuaries);
+            this.Controls.Add(this.lstQueries);
             this.Controls.Add(this.lstTags);
             this.Controls.Add(this.lstTables);
             this.Controls.Add(this.lblNewValue);
             this.Controls.Add(this.txtEdit);
             this.Controls.Add(this.lblText);
-            this.Controls.Add(this.btnQuery3);
-            this.Controls.Add(this.btnQuery2);
-            this.Controls.Add(this.btnQuery1);
             this.Controls.Add(this.btnUpdateTable);
-            this.Controls.Add(this.btnSelectTable);
-            this.Controls.Add(this.cmbTables);
             this.Controls.Add(this.mainDataGridView);
             this.Name = "MainForm";
             this.Text = "Client";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.mainDataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -236,18 +177,13 @@
 
         #endregion
         private System.Windows.Forms.DataGridView mainDataGridView;
-        private System.Windows.Forms.ComboBox cmbTables;
-        private System.Windows.Forms.Button btnSelectTable;
         private System.Windows.Forms.Button btnUpdateTable;
-        private System.Windows.Forms.Button btnQuery1;
-        private System.Windows.Forms.Button btnQuery2;
-        private System.Windows.Forms.Button btnQuery3;
         private System.Windows.Forms.Label lblText;
         private System.Windows.Forms.TextBox txtEdit;
         private System.Windows.Forms.Label lblNewValue;
         private System.Windows.Forms.ListBox lstTables;
         private System.Windows.Forms.ListBox lstTags;
-        private System.Windows.Forms.ListBox lstQuaries;
+        private System.Windows.Forms.ListBox lstQueries;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;

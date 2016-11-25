@@ -7,7 +7,7 @@ namespace ClientApp
 {
     public partial class Client
     {
-        public void GetInfoFromServer(DataGridView dataGridView, ComboBox cmbTables, ListBox lstBox, Label lblText)
+        public void GetInfoFromServer(DataGridView dataGridView, ListBox lstBox, Label lblText)
         {
             TransferUtilities.SendBytes(TransferUtilities.ClientStates.ConnectionToServer, _serverStream);
 
@@ -23,10 +23,6 @@ namespace ClientApp
                 foreach (var item in list)
                     if (item != "STUDENT_MARKS" && item != "sysdiagrams")
                         lstBox.Items.Add(item);
-
-            cmbTables.Items.Add("fasdfsdf");
-
-            cmbTables.SelectedIndex = 0;
         }
 
         public void SelectTable(DataGridView dataGridView, ComboBox cmbTables, Label lblText)

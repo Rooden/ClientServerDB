@@ -7,7 +7,7 @@ namespace ClientApp
     {
         private NetworkStream _serverStream;
         private TcpClient _server;
-        private bool _activeConnection;
+        private bool _activeConnection = false;
 
         public void ConnectToServer(int port, string ip)
         {
