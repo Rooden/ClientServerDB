@@ -13,14 +13,14 @@ namespace ClientApp.Forms
             InitializeComponent();
 
             _client = client;
-            _client.GetInfoFromServer(mainDataGridView, lstTables, lblText);
+            _client.GetInfoFromServer(mainDataGridView, lstTables);
             DataCleaner.CleanDataGridView(mainDataGridView);
         }
 
         private void btnUpdateTable_Click(object sender, EventArgs e)
         {
-            _client.UpdateTable(mainDataGridView, txtEdit, lblText);
-            DataCleaner.CleanDataGridView(mainDataGridView);
+            var updateForm = new UpdateForm(_client, mainDataGridView, lstTables);
+            updateForm.Show();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -33,10 +33,12 @@ namespace ClientApp.Forms
             if (lstTables.SelectedIndex == -1)
                 return;
 
+            btnUpdateTable.Enabled = true;
+
             lstQueries.ClearSelected();
             lstTags.ClearSelected();
 
-            _client.SelectTable(mainDataGridView, lstTables, lblText);
+            _client.SelectTable(mainDataGridView, lstTables);
             DataCleaner.CleanDataGridView(mainDataGridView);
         }
 
@@ -44,6 +46,8 @@ namespace ClientApp.Forms
         {
             if (lstTags.SelectedIndex == -1)
                 return;
+
+            btnUpdateTable.Enabled = false;
 
             lstQueries.ClearSelected();
             lstTables.ClearSelected();
@@ -128,6 +132,8 @@ namespace ClientApp.Forms
         {
             if (lstQueries.SelectedIndex == -1)
                 return;
+
+            btnUpdateTable.Enabled = false;
 
             lstTables.ClearSelected();
             lstTags.ClearSelected();

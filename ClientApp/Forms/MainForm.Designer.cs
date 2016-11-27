@@ -30,9 +30,6 @@
         {
             this.mainDataGridView = new System.Windows.Forms.DataGridView();
             this.btnUpdateTable = new System.Windows.Forms.Button();
-            this.lblText = new System.Windows.Forms.Label();
-            this.txtEdit = new System.Windows.Forms.TextBox();
-            this.lblNewValue = new System.Windows.Forms.Label();
             this.lstTables = new System.Windows.Forms.ListBox();
             this.lstTags = new System.Windows.Forms.ListBox();
             this.lstQueries = new System.Windows.Forms.ListBox();
@@ -48,9 +45,9 @@
             this.mainDataGridView.AllowUserToDeleteRows = false;
             this.mainDataGridView.AllowUserToOrderColumns = true;
             this.mainDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.mainDataGridView.Location = new System.Drawing.Point(13, 29);
+            this.mainDataGridView.Location = new System.Drawing.Point(13, 12);
             this.mainDataGridView.Name = "mainDataGridView";
-            this.mainDataGridView.Size = new System.Drawing.Size(846, 231);
+            this.mainDataGridView.Size = new System.Drawing.Size(846, 248);
             this.mainDataGridView.TabIndex = 1;
             // 
             // btnUpdateTable
@@ -59,34 +56,9 @@
             this.btnUpdateTable.Name = "btnUpdateTable";
             this.btnUpdateTable.Size = new System.Drawing.Size(75, 38);
             this.btnUpdateTable.TabIndex = 5;
-            this.btnUpdateTable.Text = "Update Table";
+            this.btnUpdateTable.Text = "Update Cell";
             this.btnUpdateTable.UseVisualStyleBackColor = true;
             this.btnUpdateTable.Click += new System.EventHandler(this.btnUpdateTable_Click);
-            // 
-            // lblText
-            // 
-            this.lblText.AutoSize = true;
-            this.lblText.Location = new System.Drawing.Point(13, 13);
-            this.lblText.Name = "lblText";
-            this.lblText.Size = new System.Drawing.Size(40, 13);
-            this.lblText.TabIndex = 9;
-            this.lblText.Text = "Table: ";
-            // 
-            // txtEdit
-            // 
-            this.txtEdit.Location = new System.Drawing.Point(685, 276);
-            this.txtEdit.Name = "txtEdit";
-            this.txtEdit.Size = new System.Drawing.Size(93, 20);
-            this.txtEdit.TabIndex = 10;
-            // 
-            // lblNewValue
-            // 
-            this.lblNewValue.AutoSize = true;
-            this.lblNewValue.Location = new System.Drawing.Point(618, 279);
-            this.lblNewValue.Name = "lblNewValue";
-            this.lblNewValue.Size = new System.Drawing.Size(61, 13);
-            this.lblNewValue.TabIndex = 11;
-            this.lblNewValue.Text = "New value:";
             // 
             // lstTables
             // 
@@ -161,9 +133,6 @@
             this.Controls.Add(this.lstQueries);
             this.Controls.Add(this.lstTags);
             this.Controls.Add(this.lstTables);
-            this.Controls.Add(this.lblNewValue);
-            this.Controls.Add(this.txtEdit);
-            this.Controls.Add(this.lblText);
             this.Controls.Add(this.btnUpdateTable);
             this.Controls.Add(this.mainDataGridView);
             this.Name = "MainForm";
@@ -178,9 +147,6 @@
         #endregion
         private System.Windows.Forms.DataGridView mainDataGridView;
         private System.Windows.Forms.Button btnUpdateTable;
-        private System.Windows.Forms.Label lblText;
-        private System.Windows.Forms.TextBox txtEdit;
-        private System.Windows.Forms.Label lblNewValue;
         private System.Windows.Forms.ListBox lstTables;
         private System.Windows.Forms.ListBox lstTags;
         private System.Windows.Forms.ListBox lstQueries;

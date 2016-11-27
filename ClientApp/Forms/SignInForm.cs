@@ -28,9 +28,6 @@ namespace ClientApp.Forms
 
                 _mainForm = new MainForm(_client);
                 _mainForm.Show();
-
-                btnConnect.Enabled = false;
-                btnExit.Enabled = true;
             }
             catch (Exception)
             {
