@@ -22,10 +22,10 @@ namespace ClientApp.Forms
             _client.UpdateTable(mainDataGridView, txtEdit, lblText);
             DataCleaner.CleanDataGridView(mainDataGridView);
         }
-        
+
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            SignInForm.MainFormCloseHandler(sender, e);
+            _client.DisconnectFromServer();
         }
 
         private void lstTables_SelectedIndexChanged(object sender, EventArgs e)

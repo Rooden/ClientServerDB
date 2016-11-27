@@ -8,26 +8,29 @@ namespace ClientApp.Forms
         private Client _client;
         private MainForm _mainForm;
 
-        public static EventHandler MainFormCloseHandler;
-
         public SignInForm()
         {
             InitializeComponent();
-            MainFormCloseHandler += btnDisconnect_Click;
         }
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
+            var ip = txtIp.Text;
+            var login = txtLogin.Text;
+            var password = txtPassword.Text;
+            var database = txtDatabase.Text;
+
             try
             {
                 _client = new Client();
-                _client.ConnectToServer(200, "127.0.0.1");
+                _client.ConnectToServer(200, ip);
+                _client.ConnectToDatabase(login, password, database);
 
                 _mainForm = new MainForm(_client);
                 _mainForm.Show();
 
                 btnConnect.Enabled = false;
-                btnDisconnect.Enabled = true;
+                btnExit.Enabled = true;
             }
             catch (Exception)
             {
@@ -35,14 +38,9 @@ namespace ClientApp.Forms
             }
         }
 
-        protected void btnDisconnect_Click(object sender, EventArgs e)
+        protected void btnExit_Click(object sender, EventArgs e)
         {
-            _mainForm.Dispose();
-
-            _client.DisconnectFromServer();
-
-            btnConnect.Enabled = true;
-            btnDisconnect.Enabled = false;
+            Application.Exit();
         }
     }
 }

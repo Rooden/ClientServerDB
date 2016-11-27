@@ -7,13 +7,19 @@ namespace ClientApp
     {
         private NetworkStream _serverStream;
         private TcpClient _server;
-        private bool _activeConnection = false;
+        private bool _activeConnection;
 
         public void ConnectToServer(int port, string ip)
         {
             _server = new TcpClient(ip, port);
             _serverStream = _server.GetStream();
             _activeConnection = true;
+        }
+
+        public void ConnectToDatabase(string login, string password, string database)
+        {
+            var dbInfo = $@"{login}/{password}/{database}";
+            TransferUtilities.SendBytes(dbInfo, _serverStream);
         }
 
         public void DisconnectFromServer()

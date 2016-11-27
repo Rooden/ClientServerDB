@@ -1,6 +1,7 @@
 ﻿using ServerApp.Utilities;
 using System;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 
@@ -21,23 +22,6 @@ namespace ServerApp
             _server.Start();
 
             Console.WriteLine("Server start successful!");
-
-            _connection = new SqlConnection(
-                @"Server = localhost;
-                    User Id = RDadmin;
-                    Password = 1324;
-                    Network Library = DBMSSOCN;
-                    Initial Catalog = KICT"
-            );
-
-            try
-            {
-                _connection.Open();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Debug Mode\n" + ex.Message + "\n");
-            }
         }
 
         public void ListenClients()
@@ -48,6 +32,29 @@ namespace ServerApp
                 _client = _server.AcceptTcpClient();
                 Console.WriteLine($"Client was found! IP - {_client.Client.RemoteEndPoint}"); // RemoteEndPoint OR LocalEndPoint
                 _clientStream = _client.GetStream();
+
+                string dbInfo;
+                TransferUtilities.RecieveBytes(out dbInfo, _clientStream);
+
+                var connectionToDbInfo = dbInfo.Split('/');
+                // [0] = login, [1] = password, [3] = db name
+                _connection = new SqlConnection(
+                    $@"Server = localhost;
+                    User Id = {connectionToDbInfo[0]};
+                    Password = {connectionToDbInfo[1]};
+                    Network Library = DBMSSOCN;
+                    Initial Catalog = {connectionToDbInfo[2]}"
+                );
+
+                try
+                {
+                    _connection.Open();
+                    Console.WriteLine("Connected to database.");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Debug Mode\n" + ex.Message + "\n");
+                }
 
                 TakingRequests();
 
